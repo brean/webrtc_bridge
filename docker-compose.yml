@@ -1,0 +1,15 @@
+services:
+  webrtc_bridge:
+    # Receives ROS 2 WebRTC-data and publish as ROS-Messages
+    image: webrtc_bridge
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+      args:
+        ROS_DISTRO: jazzy
+    ports:
+      - 9999:9999
+    command: [ros2, launch, webrtc_bridge, webrtc_bridge.launch.py]
+
+# TODO: WebRTC-Server that gets the camera image
+# TODO: Web-Server for WebCam from Browser
