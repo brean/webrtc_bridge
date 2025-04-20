@@ -66,7 +66,7 @@ async def setup_webrtc_and_run(ip_address, port, camera_id):
 
 async def main():
     # TODO: get address and port of some server
-    ip_address = "127.0.0.1"
+    ip_address = "0.0.0.0"
     port = 9999
     camera_id = 1
     await setup_webrtc_and_run(ip_address, port, camera_id)

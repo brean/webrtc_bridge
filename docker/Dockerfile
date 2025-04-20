@@ -10,6 +10,7 @@ RUN apt-get update -qq \
     python3-opencv \
     python3-venv \
     python3-aiortc \
+    ros-$ROS_DISTRO-cv-bridge \
   && rm -rf /var/lib/apt/lists/*
 
 ARG COLCON_WS=/root/ws/
@@ -31,3 +32,5 @@ COPY ./webrtc_bridge ${COLCON_WS}/src/webrtc_bridge
 WORKDIR ${COLCON_WS}
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
   colcon build
+
+CMD [ "ros2", "launch", "webrtc_bridge", "webrtc_bridge.launch.py" ]
