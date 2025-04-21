@@ -21,7 +21,7 @@ class CustomVideoStreamTrack(VideoStreamTrack):
         self.frame_count += 1
         ret, frame = self.cap.read()
         if not ret:
-            print('no data')
+            print('Failed to read frame from camera.')
             return None
         video_frame = VideoFrame.from_ndarray(frame, format="rgb24")
         video_frame.pts = self.frame_count
@@ -65,7 +65,7 @@ async def setup_webrtc_and_run(ip_address, port, camera_id):
 
 async def main():
     # TODO: get address and port of some server
-    ip_address = "127.0.0.1"
+    ip_address = "172.17.0.1"
     port = 9999
     camera_id = 1
     await setup_webrtc_and_run(ip_address, port, camera_id)

@@ -4,7 +4,6 @@ FROM ros:$ROS_DISTRO
 RUN apt-get update -qq \
   && apt-get install -y \
   ros-$ROS_DISTRO-rqt-image-view \
-#  ros-$ROS_DISTRO-rviz2 \
   && rm -rf /var/lib/apt/lists/*
 
 COPY ./docker/entrypoint_jazzy_only.sh /ros2_ws_entrypoint.sh
@@ -12,4 +11,3 @@ RUN chmod a+x /ros2_ws_entrypoint.sh
 ENTRYPOINT [ "/ros2_ws_entrypoint.sh" ]
 
 CMD [ "ros2", "run", "rqt_image_view", "rqt_image_view"]
-# CMD [ "ros2", "run", "rviz2", "rviz2"]

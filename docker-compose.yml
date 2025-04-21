@@ -7,9 +7,8 @@ services:
       dockerfile: ./docker/Dockerfile
       args:
         ROS_DISTRO: jazzy
-    network_mode: host
-    # ports:
-    #   - 9999:9999
+    ports:
+      - 9999:9999
 
   viz:
     # ros2 image viewer to visualize
@@ -27,7 +26,6 @@ services:
       - $HOME/.Xauthority:/root/.Xauthority:ro
     devices:
       - /dev/dri:/dev/dri
-    network_mode: host
 
 
 # TODO: Web-Server for WebCam from Browser

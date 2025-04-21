@@ -23,7 +23,7 @@ class WebRTCBridge(Node):
         self.get_logger().info('ROS2 node started')
         self.bridge = CvBridge()
         self.track = None
-        self.img_publisher = self.create_publisher(Image, 'images', 10)
+        self.img_publisher = self.create_publisher(Image, 'image_raw', 1)
 
     async def spin(self):
         # based on https://github.com/m2-farzan/ros2-asyncio/tree/main
@@ -38,12 +38,12 @@ class WebRTCBridge(Node):
         frame_count = 0
         while True:
             try:
-                self.get_logger().info("Waiting for frame...")
+                # self.get_logger().info("Waiting for frame...")
                 frame = await asyncio.wait_for(track.recv(), timeout=5.0)
                 frame_count += 1
-                self.get_logger().info(f"Received frame {frame_count}")
+                # self.get_logger().info(f"Received frame {frame_count}")
                 if isinstance(frame, VideoFrame):
-                    frame = frame.to_ndarray(format="bgr24")
+                    frame = frame.to_ndarray(format="rgb24")
                 elif isinstance(frame, np.ndarray):
                     self.get_logger().info("Frame type: numpy array")
                 else:
@@ -51,11 +51,11 @@ class WebRTCBridge(Node):
                         f"Unexpected frame type: {type(frame)}")
                     continue
                 # publish as ROS message
-                frame = frame.astype(np.uint8)  # Ensure the frame is of type uint8
                 img = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
-                # img.header.stamp = self.get_clock().now().to_msg()
                 self.img_publisher.publish(img)
-                self.get_logger().info('image published')
+                self.get_logger().info(
+                    f'Published video frame {frame_count} '
+                    f'{frame.shape[1]}:{frame.shape[0]}')
             except asyncio.TimeoutError:
                 self.get_logger().info("Timeout waiting for frame, continuing...")
             except Exception as e:
@@ -111,14 +111,13 @@ class WebRTCBridge(Node):
 
 async def async_main(node):
     await node.spin()
-
     node.destroy_node()
     rclpy.shutdown()
 
 
 async def webrtc_main(node):
     # create WebRTC signaling server using aiortc
-    signaling = TcpSocketSignaling("127.0.0.1", 9999)
+    signaling = TcpSocketSignaling("172.17.0.1", 9999)
     pc = RTCPeerConnection()
     logger = node.get_logger()
     try:
