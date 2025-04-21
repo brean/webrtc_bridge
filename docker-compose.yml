@@ -30,5 +30,4 @@ services:
     network_mode: host
 
 
-# TODO: WebRTC-Server that gets the camera image
 # TODO: Web-Server for WebCam from Browser
