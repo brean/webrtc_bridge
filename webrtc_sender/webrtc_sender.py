@@ -15,6 +15,9 @@ class CustomVideoStreamTrack(VideoStreamTrack):
     def __init__(self, camera_id):
         super().__init__()
         self.cap = cv2.VideoCapture(camera_id)
+        # TODO: add ROS 2 messages to configure frame rate and resolution.
+        # self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        # self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
         self.frame_count = 0
 
     async def recv(self):
@@ -29,8 +32,8 @@ class CustomVideoStreamTrack(VideoStreamTrack):
         return video_frame
 
 
-async def setup_webrtc_and_run(ip_address, port, camera_id):
-    signaling = TcpSocketSignaling(ip_address, port)
+async def setup_webrtc_and_run(host, port, camera_id):
+    signaling = TcpSocketSignaling(host, port)
     pc = RTCPeerConnection()
     video_sender = CustomVideoStreamTrack(camera_id)
     pc.addTrack(video_sender)
@@ -65,10 +68,11 @@ async def setup_webrtc_and_run(ip_address, port, camera_id):
 
 async def main():
     # TODO: get address and port of some server
-    ip_address = "0.0.0.0"
+    host = "0.0.0.0"
     port = 9999
     camera_id = 0
-    await setup_webrtc_and_run(ip_address, port, camera_id)
+    while True:
+        await setup_webrtc_and_run(host, port, camera_id)
 
 if __name__ == "__main__":
     asyncio.run(main())

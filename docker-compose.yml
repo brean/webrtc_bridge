@@ -1,7 +1,6 @@
 services:
-  webrtc_bridge:
+  webrtc-bridge:
     # Receives ROS 2 WebRTC-data (as server) and publish as ROS-Images
-    image: webrtc_bridge
     build:
       context: ./
       dockerfile: ./docker/Dockerfile
@@ -28,7 +27,8 @@ services:
       - /dev/dri:/dev/dri
 
   cam:
-    # provide the local camera
+    # provide the local camera and sends data (client)
+    # see webrtc_sender/webrtc_sender.py
     image: webrtc_camera
     build:
       context: ./
@@ -38,4 +38,9 @@ services:
     devices:
     - /dev/video0:/dev/video0
 
-# TODO: Web-Server for WebCam from Browser
+  frontend:
+    # Web frontend
+    image: webrtc_frontend
+    build:
+      context: ./svelte-robot-control/
+      dockerfile: Dockerfile
