@@ -117,7 +117,7 @@ async def async_main(node):
 
 async def webrtc_main(node):
     # create WebRTC signaling server using aiortc
-    signaling = TcpSocketSignaling("172.17.0.1", 9999)
+    signaling = TcpSocketSignaling("cam", 9999)
     pc = RTCPeerConnection()
     logger = node.get_logger()
     try:

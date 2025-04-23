@@ -1,0 +1,17 @@
+FROM python:3
+
+RUN apt-get update -qq \
+    && apt-get install -y \
+    python3-opencv \
+    python3-aiortc \
+    python3-pip \
+    libgl1-mesa-glx \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY ./webrtc_bridge/requirements.txt /tmp/requirements.txt
+# # install requirements.txt
+RUN pip3 install -r /tmp/requirements.txt --break-system-packages
+
+COPY ./webrtc_sender /webrtc_sender
+
+CMD ["python3", "/webrtc_sender/webrtc_sender.py"]

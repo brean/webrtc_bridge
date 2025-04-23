@@ -1,0 +1,3 @@
+[submodule "svelte-robot-control"]
+	path = svelte-robot-control
+	url = git@github.com:brean/svelte-robot-control.git

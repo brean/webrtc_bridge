@@ -27,5 +27,15 @@ services:
     devices:
       - /dev/dri:/dev/dri
 
+  cam:
+    # provide the local camera
+    image: webrtc_camera
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile-cam
+      args:
+        ROS_DISTRO: jazzy
+    devices:
+    - /dev/video0:/dev/video0
 
 # TODO: Web-Server for WebCam from Browser

@@ -3,7 +3,6 @@ FROM ros:$ROS_DISTRO
 
 RUN apt-get update -qq \
     && apt-get install -y \
-    python3-argcomplete \
     python3-colcon-ros \
     python3-pip \
     python3-pkg-resources \
