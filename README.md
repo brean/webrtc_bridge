@@ -1,17 +1,15 @@
 # webrtc-bridge
-ROS 2 camera streaming
-
-## What is this?
 This is an example implementation of a ROS 2 camera streaming node using 
-- [OpenCV 2](https://opencv.org/) to get image data as stream
-- Forward the data using [aiortc](https://github.com/aiortc/aiortc) to send via WebRTC
-- Receive the data and forward it as [ROS](https://ros.org) node
+- [OpenCV 2](https://opencv.org/) to get image data as stream or from a webcam of a browser or rosnode
+- Provide the data using [aiortc](https://github.com/aiortc/aiortc) as WebRTC video stream.
+- The clients exchange their information either via WebSocket or ROS.
+- Receive the data and forward it as [ROS](https://ros.org) node, or directly to the browser. 
 
 ## Communication Overview
 Here are some examples how you could use this bridge to send, receive and process image data
 
-### Example #1: Direct WebRTC connection
-You use this system completely without only using ROS to control the robot:
+### Example #1: Direct WebRTC connection (no ROS needed)
+You use this system completely with WebSockets only using ROS to control the robot:
 ```mermaid
 sequenceDiagram
     participant b as Browser
@@ -38,7 +36,7 @@ sequenceDiagram
 TODO: how to start
 
 ### Example #2: Forward image data to ROS for processing (e.g. obstacle detection)
-Sending and forwarding Image Data to a ROS node:
+The second example Sending and forwarding Image Data to a ROS node. The result of the image processing will be shown to a huma that connects with a browser:
 
 ```mermaid
 sequenceDiagram
@@ -48,7 +46,7 @@ sequenceDiagram
     participant srv as WebSocket Server
     participant snd as Sender with Webcam
     snd-->>srv: connects
-    Note left of srv: sender registers with predefined id
+    Note left of srv: Server generates id
     srv->>snd: {type: "registered", sender_id}
     s-->>srv: connects
     srv->>s: {type: "registered", sender_id}
@@ -75,8 +73,9 @@ sequenceDiagram
 
 TODO: how to start
 
-### Example #3: Use the bridge to connect 2 ROS systems with each other and forward to a User for manual control
-Send compressed image data over a slow connection (e.g. WiFi) from a ROS-using robot with a camera to another ROS system running some image processing and a UI on a Browser.
+### Example #3: Use the bridge to connect to a ROS 2 system with multiple cameras and forward to a User for manual control
+
+Send compressed image data over a slow connection (e.g. WiFi) from a ROS-using robot with a camera to another ROS system running some image processing and a UI on a Browser, the robot uses local obstacle avoidance and also forwards the image streams for different users to control the robot.
 
 TODO: sequence diagram
 
