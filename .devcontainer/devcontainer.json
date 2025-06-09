@@ -1,0 +1,17 @@
+{
+    "name": "WebRTC Bridge",
+    "workspaceFolder": "/root/ws/",
+    "dockerComposeFile": "../compose.yml",
+    "overrideCommand": true,
+    "service": "dev",
+    "customizations":{
+        "vscode": {
+            "extensions": [
+                "MermaidChart.vscode-mermaid-chart",
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-python.flake8"
+            ]
+        }
+    }
+}
