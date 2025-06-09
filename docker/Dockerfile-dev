@@ -3,6 +3,7 @@ FROM ros:$ROS_DISTRO
 
 RUN apt-get update -qq \
   && apt-get install -y \
+    mesa-utils \
     python3-colcon-ros \
     python3-pip \
     python3-pkg-resources \
@@ -12,6 +13,8 @@ RUN apt-get update -qq \
     ros-$ROS_DISTRO-cv-bridge \
     ros-$ROS_DISTRO-rqt-image-view \
   && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /run/user/1000
 
 ARG COLCON_WS=/root/ws/
 

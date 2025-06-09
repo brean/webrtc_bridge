@@ -44,17 +44,3 @@ services:
     build:
       context: ./svelte-robot-control/
       dockerfile: Dockerfile
-
-
-  dev:
-    # special dev container that contains everything
-    build:
-      context: ./
-      dockerfile: ./docker/Dockerfile-dev
-      args:
-        ROS_DISTRO: jazzy
-    volumes:
-      - ./webrtc_bridge:/root/ws/src/webrtc_bridge:rw
-      - ./webrtc_sender:/root/ws/src/webrtc_sender:rw
-    devices:
-      - /dev/video1:/dev/video0
