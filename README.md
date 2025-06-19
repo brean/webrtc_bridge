@@ -11,7 +11,7 @@ This is an example implementation of a ROS 2 camera streaming node using
 Here are some examples how you could use this bridge to send, receive and process image data
 
 ### Example #1: Direct WebRTC connection
-You use this system completely without only using ROS to control the robot:
+You use this system without ROS to get a video stream from a machine with a camera to your browser via web(socket) server:
 ```mermaid
 sequenceDiagram
     participant b as Browser
