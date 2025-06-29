@@ -7,88 +7,40 @@ This is an example implementation of a ROS 2 camera streaming node using
 - Forward the data using [aiortc](https://github.com/aiortc/aiortc) to send via WebRTC
 - Receive the data and forward it as [ROS](https://ros.org) node
 
+## Installation
+You can either run this locally in your [ROS 2](https://docs.ros.org/en/jazzy/Installation.html) environment or you can use [Docker CE](https://docs.docker.com/engine/install/).
+
+This webrtc-bridge is build with multiple scenarios in mind, with different machines that can send and receive video streams. Because of this the actual dependencies and installations can vary from machine to machine. Each example in the documentation has a section about the required installation steps.
+
+If you use Docker you need a Linux system that uses Wayland (Fedora 25 or Ubuntu 22.04 or newer).
+
 ## Communication Overview
 Here are some examples how you could use this bridge to send, receive and process image data
 
-### Example #1: Direct WebRTC connection
+## Example #1: Direct WebRTC connection
 You use this system without ROS to get a video stream from a machine with a camera to your browser via web(socket) server:
-```mermaid
-sequenceDiagram
-    participant b as Browser
-    participant srv as WebSocket Server
-    participant snd as Sender with Webcam
-    snd-->>srv: connects
-    Note left of srv: Server generates unique_ids
-    srv->>snd: {type: "registered", sender_id}
-    b-->>srv: connects
-    srv->>b: {type: "registered", receive_id}
-    loop for all snd
-        srv->>b: {"type": "sender", sender_id}
-    end
-    Note right of b: User selects a sender_id
-    b->>srv: {"type": "request_offer", sender_id}
-    srv->>snd: {"type": "request_offer", receiver_id}
-    snd->>srv: {"type": "offer", "offer": {...}, receiver_id}
-    srv->>b: {"type": "offer", "offer": {...}}
-    b->>srv: {"type": "answer": answer: {...}, sender_id}
-    srv->>snd: {"type": "answer": answer: {...}}
-    snd-->>b: send video stream via aiortc (not WebSocket)
-```
 
-TODO: how to start
+Although we are running a ROS 2 node we only use the raw websocket to send and receive a video stream.
 
-### Example #2: Forward image data to ROS for processing (e.g. obstacle detection)
-Sending and forwarding Image Data to a ROS node:
+This is a minimal setup where we just receive a video stream, send its data over WebRTC and just forward the received data to ROS. You can visualize the images with RVIz or the rqt-image viewer.
 
-```mermaid
-sequenceDiagram
-    participant r as receiver<br />ROS node
-    participant s as sender<br />ROS node
-    participant b as WebSocket client<br /> ROS node
-    participant srv as WebSocket Server
-    participant snd as Sender with Webcam
-    snd-->>srv: connects
-    Note left of srv: sender registers with predefined id
-    srv->>snd: {type: "registered", sender_id}
-    s-->>srv: connects
-    srv->>s: {type: "registered", sender_id}
-    b-->>srv: connects
-    srv->>b: {type: "registered", receive_id}
-    loop for all sender (webcam and ros node)
-        srv->>b: {"type": "sender", sender_id}
-    end
-    Note left of b: send predefined<br />sender_id
-    
-    b->>srv: {"type": "request_offer", sender_id}
-    srv->>snd: {"type": "request_offer", receiver_id}
-    snd->>srv: {"type": "offer", "offer": {...}, receiver_id}
-    srv->>b: {"type": "offer", "offer": {...}}
-    b->>srv: {"type": "answer": answer: {...}, sender_id}
-    srv->>snd: {"type": "answer": answer: {...}}
-    snd-->>b: send video stream via aiortc (not WebSocket)
-    b->>r: ROS2 Image data<br />(on /image topic)
-    r->>s: publish processed Image<br />(on /detected topic)
-    Note left of s: sender provides a<br>virtual camera
-    s->>srv: {"type": "offer", "offer": {...}, receiver_id}
-    Note left of srv: A user can now recive the offer from <br/>the websocket client node
-```
+Start with [Example 01: Simple Direct Communication](docs/01_simple_direct.md)
 
-TODO: how to start
+## Example #2: Forward image data to ROS for processing
+In this example we have ROS on the sender and receiver side and we run some image processing on both with ros. The images get feed from a camera via OpenCV and are directly published as ROS images, then a ROS node that subscribes to the images locally forwards them via WebRTC to another Machine that also runs a ROS 2 node for image processing.
 
-### Example #3: Use the bridge to connect 2 ROS systems with each other and forward to a User for manual control
-Send compressed image data over a slow connection (e.g. WiFi) from a ROS-using robot with a camera to another ROS system running some image processing and a UI on a Browser.
+Because we are already in a complex ROS network the ROS nodes also exchange the Signaling information for WebRTC via ROS.
 
-TODO: sequence diagram
+This could be useful for a scenario where you want to use the camera to do obstacle avoidance on your robot but also want to process the image on a more capable Computer or the cloud.
 
-TODO: how to start
+Continue with [Example 02: Forward and process data](docs/02_forward_ros.md)
 
-## Installation
+### Example #3: Use the bridge with different sender and receiver
+In this example we use the bridge to connect multiple systems with a camera, this could be useful for manual remote control of a robot as well as image processing in the cloud.
 
-Install docker (docker-ce).
-run `docker compose build`
+We use the WebSocket as well as a ROS node to exchange Signaling information, as we want to distribute the images for multiple receiver and display/process them in multiple places
 
-## Application
-- WebRTC adjusts bitrate automatically depending on the network, ROS does not have such a feature, so the idea is to use WebRTC for images over a slower network and re-publishing on a local machine to use all the handy ROS and computer vision tools. This repo provides docker container to with a basic test setup.
-- Sending ROS-images to a Browser is possible (e.g. compressing the images as websocket) but not a very elegant solution, however WebRTC as standard already exists, so it makes lots of sense to use it instead. See TODO: svelte-robot-control as example web application on controlling a robot using a [Virtual Joystick](https://github.com/brean/svelte-gamepad-virtual-joystick)
+We also include [svelte-robot-control](svelte-robot-control) to provide a user interface that also sends control commands back to the robot.
 
-## Usage
+Next is [Example 03: Multiple Receiver](docs/03_multiple_receiver.md)
+
