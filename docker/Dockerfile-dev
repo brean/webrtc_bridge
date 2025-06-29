@@ -36,4 +36,10 @@ WORKDIR ${COLCON_WS}
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
   colcon build --symlink-install
 
-COPY ./webrtc_sender ${COLCON_WS}/src/webrtc_sender
+COPY ./webrtc_sender ${COLCON_WS}/webrtc_sender
+
+# Add install/setup.bash to bashrc so the python interpreter inside
+# the devContainer can find the ros-installation and autocomplete works.
+RUN echo "source ${COLCON_WS}/install/setup.bash" >> /root/.bashrc
+
+CMD ["sleep", "infinity"]

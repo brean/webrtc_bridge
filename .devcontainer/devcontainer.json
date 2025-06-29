@@ -2,7 +2,7 @@
     "name": "WebRTC Bridge",
     "workspaceFolder": "/root/ws/",
     "dockerComposeFile": "../compose-dev.yml",
-    "overrideCommand": true,
+    "overrideCommand": false,
     "service": "dev",
     "remoteEnv": {
         "WAYLAND_DISPLAY": "" 

@@ -8,7 +8,7 @@ services:
         ROS_DISTRO: jazzy
     volumes:
       - ./webrtc_bridge:/root/ws/src/webrtc_bridge:rw
-      - ./webrtc_sender:/root/ws/src/webrtc_sender:rw
+      - ./webrtc_sender:/root/ws/webrtc_sender:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - $HOME/.Xauthority:/root/.Xauthority:ro
     devices:
