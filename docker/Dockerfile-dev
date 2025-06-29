@@ -3,6 +3,7 @@ FROM ros:$ROS_DISTRO
 
 RUN apt-get update -qq \
   && apt-get install -y \
+    qtwayland5 \
     mesa-utils \
     python3-colcon-ros \
     python3-pip \

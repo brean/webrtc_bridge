@@ -3,7 +3,8 @@ FROM ros:$ROS_DISTRO
 
 RUN apt-get update -qq \
   && apt-get install -y \
-  ros-$ROS_DISTRO-rqt-image-view \
+    qtwayland5 \
+    ros-$ROS_DISTRO-rqt-image-view \
   && rm -rf /var/lib/apt/lists/*
 
 COPY ./docker/entrypoint_jazzy_only.sh /ros2_ws_entrypoint.sh

@@ -3,13 +3,14 @@ FROM ros:$ROS_DISTRO
 
 RUN apt-get update -qq \
     && apt-get install -y \
-    python3-colcon-ros \
-    python3-pip \
-    python3-pkg-resources \
-    python3-opencv \
-    python3-venv \
-    python3-aiortc \
-    ros-$ROS_DISTRO-cv-bridge \
+      qtwayland5 \
+      python3-colcon-ros \
+      python3-pip \
+      python3-pkg-resources \
+      python3-opencv \
+      python3-venv \
+      python3-aiortc \
+      ros-$ROS_DISTRO-cv-bridge \
   && rm -rf /var/lib/apt/lists/*
 
 ARG COLCON_WS=/root/ws/

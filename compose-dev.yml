@@ -6,15 +6,14 @@ services:
       dockerfile: ./docker/Dockerfile-dev
       args:
         ROS_DISTRO: jazzy
+    environment:
+      - QT_QPA_PLATFORM=wayland
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
     volumes:
       - ./webrtc_bridge:/root/ws/src/webrtc_bridge:rw
       - ./webrtc_sender:/root/ws/webrtc_sender:rw
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
-      - $HOME/.Xauthority:/root/.Xauthority:ro
+      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:ro
     devices:
       - /dev/video1:/dev/video0
       - /dev/dri:/dev/dri
-    environment:
-      - DISPLAY=$DISPLAY
-      - XAUTHORITY=/root/.Xauthority
-      - QT_X11_NO_MITSHM=1
