@@ -9,6 +9,14 @@ services:
     ports:
       - 9999:9999
 
+  # WebSocket/ROS 2 - Signaling Server
+  signaling-server:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile-img-viz
+    ports:
+      - 8080:8080
+
   viz:
     # ros2 image viewer to visualize
     image: image_viz

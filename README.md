@@ -12,7 +12,7 @@ You can either run this locally in your [ROS 2](https://docs.ros.org/en/jazzy/In
 
 This webrtc-bridge is build with multiple scenarios in mind, with different machines that can send and receive video streams. Because of this the actual dependencies and installations can vary from machine to machine. Each example in the documentation has a section about the required installation steps.
 
-If you use Docker you need a Linux system that uses Wayland (Fedora 25 or Ubuntu 22.04 or newer).
+NOTE: If you use Docker you need a Linux system that uses Wayland (Fedora 25 or Ubuntu 22.04 or newer).
 
 ## Communication Overview
 Here are some examples how you could use this bridge to send, receive and process image data
