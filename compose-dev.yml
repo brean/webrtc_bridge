@@ -1,0 +1,20 @@
+services:
+  dev:
+    # special dev container that contains everything
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile-dev
+      args:
+        ROS_DISTRO: jazzy
+    environment:
+      - QT_QPA_PLATFORM=wayland
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
+    volumes:
+      - ./webrtc_bridge:/root/ws/src/webrtc_bridge:rw
+      - ./webrtc_sender:/root/ws/webrtc_sender:rw
+      - ./README.md:/root/ws/README.md:rw
+      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:ro
+    devices:
+      - /dev/video1:/dev/video0
+      - /dev/dri:/dev/dri

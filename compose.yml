@@ -9,6 +9,14 @@ services:
     ports:
       - 9999:9999
 
+  # WebSocket/ROS 2 - Signaling Server
+  signaling-server:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile-img-viz
+    ports:
+      - 8080:8080
+
   viz:
     # ros2 image viewer to visualize
     image: image_viz
@@ -18,11 +26,11 @@ services:
       args:
         ROS_DISTRO: jazzy
     environment:
-      - DISPLAY=$DISPLAY
-      - XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+      - QT_QPA_PLATFORM=wayland
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
-      - $HOME/.Xauthority:/root/.Xauthority:ro
+      - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:ro
     devices:
       - /dev/dri:/dev/dri
 
@@ -36,7 +44,7 @@ services:
       args:
         ROS_DISTRO: jazzy
     devices:
-    - /dev/video0:/dev/video0
+    - /dev/video1:/dev/video0
 
   frontend:
     # Web frontend
