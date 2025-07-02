@@ -10,6 +10,7 @@ RUN apt-get update -qq \
       python3-opencv \
       python3-venv \
       python3-aiortc \
+      python3-aiohttp \
       ros-$ROS_DISTRO-cv-bridge \
   && rm -rf /var/lib/apt/lists/*
 

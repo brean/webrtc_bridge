@@ -41,6 +41,7 @@ async def websocket_handler(url: str):
     # create websocket session
     video_track = VideoTrack()
     session = aiohttp.ClientSession()
+    pc = None
     pcs = {}
     try:
         async with session.ws_connect(f'{url}sender') as ws:
@@ -84,8 +85,9 @@ async def websocket_handler(url: str):
     except KeyboardInterrupt:
         print('Keyboard Interrupt, exiting...')
     finally:
-        await pc.close()
+        if pc:
+            await pc.close()
 
 if __name__ == '__main__':
-    url = 'http://0.0.0.0:8080/'
+    url = 'http://0.0.0.0:9080/'
     asyncio.run(websocket_handler(url=url))

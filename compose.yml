@@ -13,9 +13,9 @@ services:
   signaling-server:
     build:
       context: ./
-      dockerfile: ./docker/Dockerfile-img-viz
+      dockerfile: ./docker/Dockerfile-signaling
     ports:
-      - 8080:8080
+      - 9080:9080
 
   viz:
     # ros2 image viewer to visualize
@@ -44,7 +44,7 @@ services:
       args:
         ROS_DISTRO: jazzy
     devices:
-    - /dev/video1:/dev/video0
+    - /dev/video0:/dev/video0
 
   frontend:
     # Web frontend

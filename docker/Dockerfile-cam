@@ -4,6 +4,7 @@ RUN apt-get update -qq \
   && apt-get install -y \
     python3-opencv \
     python3-aiortc \
+    python3-aiohttp \
     python3-pip \
     libgl1-mesa-glx \
   && rm -rf /var/lib/apt/lists/*
