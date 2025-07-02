@@ -6,7 +6,10 @@ For more complex examples, that are maybe closer to your application look at the
 
 # Installation
 ## Docker
-TODO!
+Install docker-ce following [this](https://docs.docker.com/engine/install/) installation guide (don't forget the [post-install steps](https://docs.docker.com/engine/install/linux-postinstall/)), then 
+just run `docker compose build` in the main folder.
+
+You might also want to configure the `compose.yml` when your video device is not `/dev/video0`
 
 ## Individual installation
 ### Webcam-PC
@@ -27,6 +30,9 @@ We also have a client for that receives the images from the server and forwards 
 source /opt/ros/YOUR_ROS_ENV/setup.bash
 sudo apt-get install -y python3-aiortc python3-fastapi ros-$ROS_DISTRO-cv-bridge
 ```
+
+## Run
+If you installed using docker start the `./run_example1-docker.bash` or `./run_example1-local.bash` otherwise. Both scripts start a terminator instance with the signaling server, rqt-image, the camera sending and receiving clients
 
 ## Sequence Diagram
 ```mermaid

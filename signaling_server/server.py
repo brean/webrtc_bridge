@@ -114,6 +114,7 @@ async def websocket_receiver(request):
     return ws
 
 
+# TODO: add a ROS node that also starts and provides an alternative way to exchange signaling information.
 if __name__ == '__main__':
     app = web.Application()
     app.add_routes(routes)
