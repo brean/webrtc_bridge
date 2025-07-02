@@ -10,10 +10,12 @@ services:
       - 9999:9999
 
   # WebSocket/ROS 2 - Signaling Server
-  signaling-server:
+  signaling:
     build:
       context: ./
       dockerfile: ./docker/Dockerfile-signaling
+    environment:
+      - PYTHONUNBUFFERED=1
     ports:
       - 9080:9080
 
@@ -45,6 +47,8 @@ services:
         ROS_DISTRO: jazzy
     devices:
     - /dev/video0:/dev/video0
+    # privileged is required for video devices!
+    privileged: true
 
   frontend:
     # Web frontend

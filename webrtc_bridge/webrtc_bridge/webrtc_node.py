@@ -113,7 +113,7 @@ async def websocket_handler(node):
     # TODO: We need some UI to select any one of the
     # server that provide RTC streams, so we can send request_offer
     # then the sender should create an offer that we can answer to
-    async with session.ws_connect('ws://localhost:9080/receiver') as ws:
+    async with session.ws_connect('ws://signaling:9080/receiver') as ws:
         async for message in ws:
             data = json.loads(message.data)
             data_type = data['type']

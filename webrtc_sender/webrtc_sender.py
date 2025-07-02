@@ -89,5 +89,5 @@ async def websocket_handler(url: str):
             await pc.close()
 
 if __name__ == '__main__':
-    url = 'http://0.0.0.0:9080/'
+    url = 'http://signaling:9080/'
     asyncio.run(websocket_handler(url=url))
