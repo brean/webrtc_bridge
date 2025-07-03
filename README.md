@@ -14,10 +14,59 @@ This webrtc-bridge is build with multiple scenarios in mind, with different mach
 
 NOTE: If you use Docker you need a Linux system that uses Wayland (Fedora 25 or Ubuntu 22.04 or newer).
 
-## Communication Overview
+## Overview
+```mermaid
+graph TD
+    subgraph Input sources
+        subgraph "Local PC"
+            Webcam[<i class='fa fa-camera'></i> Webcam]
+            S1["Sender 1 - WebRTC and WebSocket client"]    
+        end
+        
+        subgraph "Robot"
+            ROS2Topic[<i class='fa fa-robot'></i> ROS 2 Topic<br>e.g. /image_raw]
+            S2[Sender 2 - WebRTC and ROS2 Client]
+        end
+    end
+
+    Webcam --> S1
+    ROS2Topic --> S2
+
+    subgraph "Signaling Server"
+        ROSSignal["ROS 2 Signaling Server"]
+        WSSignal["WebSocket Signaling Server"]
+        
+        ROSSignal --- |"Shared Client list"| WSSignal
+    end
+
+    S1 --> WSSignal
+    S2 --> ROSSignal
+
+    WSSignal --> R1
+    ROSSignal --> R2
+
+    subgraph "Output Sources"
+        subgraph "Web"
+            R1[Receiver 1 - WebServer Backend]
+            Browser[<i class='fa fa-window-maximize'></i> Web Browser UI]
+        end
+        subgraph "ROS PC System"
+            R2[Receiver 2 - Local PC with ROS 2]
+            RV[RVIZ2]
+            RQT[RQT Image View]
+        end
+    end
+
+    R1 --> Browser
+    R2 --> RV
+    R2 --> RQT
+```
+
+
+## Usage Example
 Here are some examples how you could use this bridge to send, receive and process image data
 
-## Example #1: Direct WebRTC connection with ROS 2
+### Example #1: Direct WebRTC connection with ROS 2
 You can use the image publication without ROS to get a video stream from a machine with a camera but without ROS installed to your browser via web(socket) server.
 
 We use WebRTC to send and receive a video stream that gets forwarded to ROS 2 where its getting displayed in rqt-image-view.
@@ -26,7 +75,7 @@ This is a minimal setup where we just receive a video stream that we want to pro
 
 Start with [Example 01: Simple Direct Communication](docs/01_simple_direct.md)
 
-## Example #2: Forward image data to ROS and a Web-Server (e.g. to control a robot over the internet)
+### Example #2: Forward image data to ROS and a Web-Server (e.g. to control a robot over the internet)
 In this example we have ROS on the sender and receiver side and we run some image processing on both with ros. The images get feed from a camera via OpenCV and are directly published as ROS images, then a ROS node that subscribes to the images locally forwards them via WebRTC to another Machine that also runs a ROS 2 node for image processing.
 
 It gets also forwarded to a Web Browser with a data and video streaming connection so the user can see the image and send control commands.
