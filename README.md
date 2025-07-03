@@ -19,12 +19,12 @@ NOTE: If you use Docker you need a Linux system that uses Wayland (Fedora 25 or 
 graph TD
     subgraph Input sources
         subgraph "Local PC"
-            Webcam[<i class='fa fa-camera'></i> Webcam]
+            Webcam[📷 Webcam]
             S1["Sender 1 - WebRTC and WebSocket client"]    
         end
         
         subgraph "Robot"
-            ROS2Topic[<i class='fa fa-robot'></i> ROS 2 Topic<br>e.g. /image_raw]
+            ROS2Topic[🤖 ROS 2 Topic<br>e.g. /image_raw]
             S2[Sender 2 - WebRTC and ROS2 Client]
         end
     end
@@ -48,10 +48,10 @@ graph TD
     subgraph "Output Sources"
         subgraph "Web"
             R1[Receiver 1 - WebServer Backend]
-            Browser[<i class='fa fa-window-maximize'></i> Web Browser UI]
+            Browser[🌐 Web Browser UI]
         end
         subgraph "ROS PC System"
-            R2[Receiver 2 - Local PC with ROS 2]
+            R2[🤖 Receiver 2 - ROS2 Topic e.g. /sender1/image]
             RV[RVIZ2]
             RQT[RQT Image View]
         end
