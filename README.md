@@ -17,30 +17,29 @@ NOTE: If you use Docker you need a Linux system that uses Wayland (Fedora 25 or 
 ## Communication Overview
 Here are some examples how you could use this bridge to send, receive and process image data
 
-## Example #1: Direct WebRTC connection
-You use this system without ROS to get a video stream from a machine with a camera to your browser via web(socket) server:
+## Example #1: Direct WebRTC connection with ROS 2
+You can use the image publication without ROS to get a video stream from a machine with a camera but without ROS installed to your browser via web(socket) server.
 
-Although we are running a ROS 2 node we only use the raw websocket to send and receive a video stream.
+We use WebRTC to send and receive a video stream that gets forwarded to ROS 2 where its getting displayed in rqt-image-view.
 
-This is a minimal setup where we just receive a video stream, send its data over WebRTC and just forward the received data to ROS. You can visualize the images with RVIz or the rqt-image viewer.
+This is a minimal setup where we just receive a video stream that we want to process on our machine.
 
 Start with [Example 01: Simple Direct Communication](docs/01_simple_direct.md)
 
-## Example #2: Forward image data to ROS for processing
+## Example #2: Forward image data to ROS and a Web-Server (e.g. to control a robot over the internet)
 In this example we have ROS on the sender and receiver side and we run some image processing on both with ros. The images get feed from a camera via OpenCV and are directly published as ROS images, then a ROS node that subscribes to the images locally forwards them via WebRTC to another Machine that also runs a ROS 2 node for image processing.
 
-Because we are already in a complex ROS network the ROS nodes also exchange the Signaling information for WebRTC via ROS.
+It gets also forwarded to a Web Browser with a data and video streaming connection so the user can see the image and send control commands.
+Because we are already in a complex ROS network the ROS nodes also exchange the Signaling information for WebRTC via ROS and WebSocket, so our Signaling server supports both.
 
-This could be useful for a scenario where you want to use the camera to do obstacle avoidance on your robot but also want to process the image on a more capable Computer or the cloud.
+This could be useful for a scenario where you want to use the camera to do obstacle avoidance and overlay information for your human driver, so we include [svelte-robot-control](svelte-robot-control) to provide a user interface that also sends control commands back to the robot.
 
 Continue with [Example 02: Forward and process data](docs/02_forward_ros.md)
 
 ### Example #3: Use the bridge with different sender and receiver
-In this example we use the bridge to connect multiple systems with a camera, this could be useful for manual remote control of a robot as well as image processing in the cloud.
+In this example we use the bridge to connect multiple systems with a camera (we simulate multiple cameras by publishing Image streams from video via ROS), this could be useful if you have mutliple cameras your use can choose from.
 
-We use the WebSocket as well as a ROS node to exchange Signaling information, as we want to distribute the images for multiple receiver and display/process them in multiple places
-
-We also include [svelte-robot-control](svelte-robot-control) to provide a user interface that also sends control commands back to the robot.
+We use the WebSocket as well as a ROS node to exchange Signaling information, as we want to distribute the images for multiple receiver and display/process them in multiple places.
 
 Next is [Example 03: Multiple Receiver](docs/03_multiple_receiver.md)
 
