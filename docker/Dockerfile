@@ -1,8 +1,8 @@
 ARG ROS_DISTRO=jazzy
 FROM ros:$ROS_DISTRO
 
-RUN apt-get update -qq \
-    && apt-get install -y \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
       qtwayland5 \
       python3-colcon-ros \
       python3-pip \
