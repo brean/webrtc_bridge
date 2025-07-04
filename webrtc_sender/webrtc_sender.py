@@ -10,7 +10,7 @@ import fractions
 class VideoTrack(VideoStreamTrack):
     def __init__(self):
         super().__init__()
-        self.cap = cv2.VideoCapture(1)
+        self.cap = cv2.VideoCapture(0)
         self.frame_count = 0
 
     async def recv(self):
