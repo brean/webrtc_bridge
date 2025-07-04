@@ -16,5 +16,5 @@ services:
       - ./README.md:/root/ws/README.md:rw
       - ${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}:ro
     devices:
-      - /dev/video1:/dev/video0
+      - /dev/video0:/dev/video0
       - /dev/dri:/dev/dri
