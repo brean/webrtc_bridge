@@ -38,7 +38,7 @@ If you installed using docker start the `./run_example1-docker.bash` or `./run_e
 ```mermaid
 sequenceDiagram
     participant b as ROS Node to forward<br> as sensor_msgs/Image
-    participant srv as WebSocket Server
+    participant srv as WebSocket Signaling Server
     participant snd as Sender with Webcam
     snd-->>srv: connects
     Note left of srv: Server generates unique_ids
