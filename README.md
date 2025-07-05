@@ -1,11 +1,12 @@
 # webrtc-bridge
 ROS 2 camera streaming
 
-## What is this?
+## Overview
 This is an example implementation of a ROS 2 camera streaming node using 
-- [OpenCV 2](https://opencv.org/) to get image data as stream
-- Forward the data using [aiortc](https://github.com/aiortc/aiortc) to send via WebRTC
-- Receive the data and forward it as [ROS](https://ros.org) node
+- [OpenCV 2](https://opencv.org/) to get image data as stream or from a webcam of a browser or rosnode
+- Provide the data using [aiortc](https://github.com/aiortc/aiortc) as WebRTC video stream.
+- The clients exchange their information either via WebSocket or ROS.
+- Receive the data and forward it as [ROS](https://ros.org) node, or directly to the browser. 
 
 ## Installation
 You can either run this locally in your [ROS 2](https://docs.ros.org/en/jazzy/Installation.html) environment or you can use [Docker CE](https://docs.docker.com/engine/install/).

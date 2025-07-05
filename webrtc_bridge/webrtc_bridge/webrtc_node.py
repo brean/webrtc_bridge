@@ -20,7 +20,7 @@ from aiortc import \
     RTCPeerConnection, RTCSessionDescription
 
 
-class VideoTrack(VideoStreamTrack):
+class SimpleVideoTrack(VideoStreamTrack):
     """Custom VideoTrack handling."""
     async def recv(self):
         frame = await self.recv()
@@ -82,7 +82,7 @@ async def handle_track(node, track, receiver_id):
 
 async def receive_video(node, sender_id, receiver_id, offer, websocket):
     pc = RTCPeerConnection()
-    pc.addTrack(VideoTrack())
+    pc.addTrack(SimpleVideoTrack())
 
     @pc.on("track")
     def on_track(track):

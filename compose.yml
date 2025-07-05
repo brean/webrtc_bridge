@@ -46,7 +46,7 @@ services:
       args:
         ROS_DISTRO: jazzy
     devices:
-    - /dev/video0:/dev/video0
+    - /dev/:/dev/
     # privileged is required for video devices!
     privileged: true
 

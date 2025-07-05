@@ -9,7 +9,7 @@ RUN apt-get update \
     libgl1-mesa-glx \
   && rm -rf /var/lib/apt/lists/*
 
-COPY ./webrtc_bridge/requirements.txt /tmp/requirements.txt
+COPY ./webrtc_sender/requirements.txt /tmp/requirements.txt
 # # install requirements.txt
 RUN pip3 install -r /tmp/requirements.txt --break-system-packages
 
