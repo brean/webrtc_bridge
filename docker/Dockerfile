@@ -1,15 +1,17 @@
 ARG ROS_DISTRO=jazzy
 FROM ros:$ROS_DISTRO
 
-RUN apt-get update -qq \
-    && apt-get install -y \
-    python3-colcon-ros \
-    python3-pip \
-    python3-pkg-resources \
-    python3-opencv \
-    python3-venv \
-    python3-aiortc \
-    ros-$ROS_DISTRO-cv-bridge \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+      qtwayland5 \
+      python3-colcon-ros \
+      python3-pip \
+      python3-pkg-resources \
+      python3-opencv \
+      python3-venv \
+      python3-aiortc \
+      python3-aiohttp \
+      ros-$ROS_DISTRO-cv-bridge \
   && rm -rf /var/lib/apt/lists/*
 
 ARG COLCON_WS=/root/ws/
